@@ -20,5 +20,11 @@
 		"svelte": "^3.44.0",
 		"vite": "^3.0.0"
 	},
+	"dependencies": {
+		"chunk": "^0.0.3",
+		"dotenv": "^16.0.0",
+		"qs": "^6.10.3",
+		"spotify-web-api-js": "^1.5.2"
+	},
 	"type": "module"
 }

@@ -1,0 +1,90 @@
+@font-face {
+	font-family: 'Commune_Nuit_Debout';
+	src: url('/fonts/NuitDebout/Commune-Nuit_Debout_web.eot');
+	src: url('/fonts/NuitDebout/Commune-Nuit_Debout_web.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/NuitDebout/Commune-Nuit_Debout_web.woff') format('woff'),
+		url('/fonts/NuitDebout/Commune-Nuit_Debout_web.woff2') format('woff2'),
+		url('/fonts/NuitDebout/Commune-Nuit_Debout_web.ttf') format('truetype'),
+		url('/fonts/NuitDebout/Commune-Nuit_Debout_web.svg#svgFontName') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Commune_Nuit_Debout_Pochoir';
+	src: url('/fonts/NuitDeboutPochoir/Commune-Nuit_Debout_Pochoir_web.eot');
+	src: url('/fonts/NuitDeboutPochoir/Commune-Nuit_Debout_Pochoir_web.eot?#iefix')
+			format('embedded-opentype'),
+		url('/fonts/NuitDeboutPochoir/Commune-Nuit_Debout_Pochoir_web.woff') format('woff'),
+		url('/fonts/NuitDeboutPochoir/Commune-Nuit_Debout_Pochoir_web.woff2') format('woff2'),
+		url('/fonts/NuitDeboutPochoir/Commune-Nuit_Debout_Pochoir_web.ttf') format('truetype'),
+		url('/fonts/NuitDeboutPochoir/Commune-Nuit_Debout_Pochoir_web.svg#svgFontName') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--neon-pink: rgb(252, 15, 228);
+	--neon-orange: rgb(252, 102, 15);
+	--neon-green: rgb(149, 252, 15);
+	--nearly-black: rgb(10, 10, 10);
+	--highlight: var(--neon-orange);
+	--active: var(--neon-pink);
+
+	--background: var(--neon-green);
+	--foreground: var(--nearly-black);
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Commune_Nuit_Debout';
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	max-width: 1280px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+textarea:focus,
+input:focus {
+	outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: var(--nearly-black);
+		--foreground: var(--neon-green);
+	}
+
+	body {
+		background: var(--foreground);
+		color: var(--background);
+	}
+}
+
+h1 {
+	margin: 0;
+	font-size: 12rem;
+}
+
+h2 {
+	margin: 0;
+	font-size: 8rem;
+}
+
+h3 {
+	font-size: 3rem;
+	font-weight: normal;
+}
