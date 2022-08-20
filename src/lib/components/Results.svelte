@@ -90,11 +90,11 @@
 	</div>
 	<div class="buttons">
 		{#if url}
-			<Button big={true} on:click={() => (window.location.href = url)}>{playlistName}</Button>
+			<Button big={true} handleClick={() => (window.location.href = url)}>{playlistName}</Button>
 		{:else}
-			<Button disabled={results.length == 0} big={true} on:click={generate}>generate</Button>
+			<Button disabled={results.length == 0} big={true} handleClick={generate}>generate</Button>
 		{/if}
-		<Button big={true} on:click={startAgain}>start again</Button>
+		<Button big={true} handleClick={startAgain}>start again</Button>
 		<Footer />
 	</div>
 </div>

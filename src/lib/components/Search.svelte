@@ -12,7 +12,6 @@
 	export let noResultsArtists;
 	let artists;
 
-	$: console.log('search', { results });
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
 	if (browser) {

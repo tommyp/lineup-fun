@@ -10,7 +10,6 @@
 	let results = [];
 	let noResultsArtists = [];
 
-	$: console.log({ results });
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
 	if (browser) {

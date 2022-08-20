@@ -2,9 +2,10 @@
 	export let type = '';
 	export let big = false;
 	export let disabled = false;
+	export let handleClick = () => {};
 </script>
 
-<button {disabled} class:big {type}> <slot /> </button>
+<button on:click={handleClick} {disabled} class:big {type}> <slot /> </button>
 
 <style>
 	button {
