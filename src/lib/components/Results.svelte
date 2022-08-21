@@ -23,7 +23,7 @@
 
 	$: artistIds = results.filter((a) => a).map((a) => a.id);
 
-	$: title = `${playlistName} | Lineupper - a Spotify playlist generator`;
+	$: title = `${playlistName} | Lineup.fun - a Spotify playlist generator`;
 
 	const generate = async () => {
 		const artistTracks = await Promise.allSettled(

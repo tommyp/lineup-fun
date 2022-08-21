@@ -27,7 +27,7 @@ export async function GET({ url }) {
 		return {
 			status: 301,
 			headers: {
-				location: `/?accessToken=${body.access_token}`
+				location: `/lineup?accessToken=${body.access_token}`
 			}
 		};
 	} else {

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Lineupper - a Spotify playlist generator</title>
+	<title>Lineup.fun - a Spotify playlist generator</title>
 </svelte:head>
 
 <slot />

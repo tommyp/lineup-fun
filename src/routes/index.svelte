@@ -2,19 +2,6 @@
 	import { browser } from '$app/env';
 	import Footer from '$lib/components/Footer.svelte';
 	import LoginButton from '$lib/components/LoginButton.svelte';
-	import { setCookie } from '$lib/utils/cookies';
-
-	if (browser) {
-		const url = new URL(window.location.href);
-		const token = url.searchParams.get('accessToken');
-		if (token) {
-			setCookie('spotify-access-token', token, 3600);
-
-			url.searchParams.delete('accessToken');
-			window.history.pushState({}, '', url);
-			window.location.href = '/lineup';
-		}
-	}
 </script>
 
 <div class="container">

@@ -4,6 +4,7 @@
 	import Search from '$lib/components/Search.svelte';
 	import { getCookie, setCookie } from '$lib/utils/cookies';
 	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
+	import { fly } from 'svelte/transition';
 
 	let playlistName;
 	let artists;
@@ -32,7 +33,11 @@
 </script>
 
 {#if results.length > 0 || noResultsArtists.length > 0}
-	<Results bind:results bind:noResultsArtists {playlistName} />
+	<div transition:fly={{ y: -200, duration: 500 }}>
+		<Results bind:results bind:noResultsArtists {playlistName} />
+	</div>
 {:else}
-	<Search bind:results bind:noResultsArtists {playlistName} />
+	<div transition:fly={{ y: -200, duration: 500 }}>
+		<Search bind:results bind:noResultsArtists {playlistName} />
+	</div>
 {/if}

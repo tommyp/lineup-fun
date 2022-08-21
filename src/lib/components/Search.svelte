@@ -167,7 +167,7 @@
 		font-size: 5rem;
 		background: none;
 		border: 2px solid var(--highlight);
-
+		transition: border-color 0.2s ease-in-out;
 		padding: 0.25rem;
 	}
 

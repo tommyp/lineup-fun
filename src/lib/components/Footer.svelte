@@ -15,6 +15,7 @@
 
 	a {
 		color: var(--nearly-black);
+		transition: color 0.2s ease-in-out;
 	}
 
 	a:hover {

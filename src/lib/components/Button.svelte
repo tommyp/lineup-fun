@@ -9,19 +9,18 @@
 
 <style>
 	button {
-		background: var(--highlight);
-
-		color: #fff;
-
-		display: flex;
 		align-items: center;
-		justify-content: center;
-		width: 100%;
-		text-decoration: none;
-		outline: none;
+		background: var(--highlight);
 		border: none;
+		color: #fff;
 		cursor: pointer;
+		display: flex;
 		font-family: 'Commune_Nuit_Debout';
+		justify-content: center;
+		outline: none;
+		transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+		text-decoration: none;
+		width: 100%;
 	}
 
 	button:disabled {
