@@ -21,11 +21,13 @@
 		"vite": "^3.0.0"
 	},
 	"dependencies": {
+		"@sentry/browser": "^7.11.1",
+		"@sentry/tracing": "^7.11.1",
 		"chunk": "^0.0.3",
 		"dotenv": "^16.0.0",
 		"qs": "^6.10.3",
-		"spotify-web-api-js": "^1.5.2",
-		"securerandom": "^0.0.2"
+		"securerandom": "^0.0.2",
+		"spotify-web-api-js": "^1.5.2"
 	},
 	"type": "module"
 }
