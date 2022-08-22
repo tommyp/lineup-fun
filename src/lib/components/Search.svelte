@@ -94,7 +94,7 @@
 	</div>
 
 	<div class="buttons">
-		<Button big={true} type="submit">search</Button>
+		<Button big={true} disabled={!(artists && playlistName)} type="submit">search</Button>
 		<Footer />
 	</div>
 </form>
