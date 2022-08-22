@@ -12,7 +12,6 @@ export const saveSpotifyUser = async () => {
 		.catch((err) => {
 			console.log(err);
 			setCookie('spotify-access-token', null);
-			window.location.pathname = '/';
 		});
 };
 
