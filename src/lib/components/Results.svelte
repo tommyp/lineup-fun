@@ -120,7 +120,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		gap: 0.5rem;
+		gap: 2.5rem;
 		height: auto;
 		padding-bottom: 2rem;
 		flex-grow: 1;

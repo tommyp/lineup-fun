@@ -42,6 +42,7 @@
 		gap: 1rem;
 		align-items: center;
 		justify-content: space-between;
+		min-height: 100px;
 	}
 
 	.artist {
