@@ -3,6 +3,7 @@
 
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
+	import Footer from '../lib/components/Footer.svelte';
 
 	Sentry.init({
 		dsn: 'https://346b7ffb0b5542ce846f1b19d12a0434@o160551.ingest.sentry.io/6676385',
@@ -16,3 +17,5 @@
 </script>
 
 <slot />
+
+<Footer />
