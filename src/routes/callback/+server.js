@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit';
 import QueryString from 'qs';
 
 export async function GET({ url }) {
@@ -24,13 +25,18 @@ export async function GET({ url }) {
 	const body = await res.json();
 
 	if (body.access_token) {
-		return {
+		return new Response(undefined, {
 			status: 301,
 			headers: {
 				location: `/lineup?accessToken=${body.access_token}`
 			}
-		};
+		});
 	} else {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)");
+		// Suggestion (check for correctness before using):
+		// return json$1(body, {
+		// 	status: 500
+		// });
 		return {
 			status: 500,
 			body

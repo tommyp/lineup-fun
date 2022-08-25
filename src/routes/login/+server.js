@@ -10,7 +10,7 @@ export async function GET() {
 		'user-read-email'
 	].join(' ');
 
-	return {
+	return new Response(undefined, {
 		status: 302,
 		headers: {
 			location:
@@ -23,5 +23,5 @@ export async function GET() {
 					state: state
 				})
 		}
-	};
+	});
 }
