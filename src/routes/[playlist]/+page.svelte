@@ -1,31 +1,33 @@
 <script>
 	import { browser } from '$app/env';
+	import Button from '$lib/components/Button.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
-	import spotify, { spotifyUser } from '$lib/utils/spotify';
+	import { getCookie, setCookie } from '$lib/utils/cookies';
+	import spotify, { saveSpotifyUser, spotifyUser } from '$lib/utils/spotify';
+	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
+	import NoResult from '$lib/components/NoResult.svelte';
+	import Result from '$lib/components/Result.svelte';
+	import { goto } from '$app/navigation';
 	import chunk from 'chunk';
-	import Button from './Button.svelte';
-	import Footer from './Footer.svelte';
-	import NoResult from './NoResult.svelte';
 
-	import Result from './Result.svelte';
+	let playlistName = $playlistNameStore;
+	let artists;
+	let results = [];
+	let noResultsArtists = [];
+	let url;
 
-	export let results;
-	export let playlistName;
-	export let noResultsArtists;
-	let url = '';
+	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
-	if (browser) {
-		const storedPlaylistName = window.localStorage.getItem('playlistName');
-		if (storedPlaylistName) {
-			playlistName = storedPlaylistName;
-		}
-	}
-
-	$: artistIds = results.filter((a) => a).map((a) => a.id);
+	$: artistIds = $searchResults.filter((a) => a).map((a) => a.id);
 
 	$: title = `${playlistName} | Lineup.fun - a Spotify playlist generator`;
 
-	$: console.log(results);
+	$: console.log($searchResults);
+	// $: if (!document.referrer.includes('/search')) {
+	// 	goto('/');
+	// }
+	$: console.log(document.referrer);
 
 	const generate = async () => {
 		const artistTracks = await Promise.allSettled(
@@ -62,12 +64,13 @@
 	};
 
 	const removeResult = (result) => {
-		results = results.filter((r) => r !== result);
+		$searchResults.update((results) => results.filter((r) => r !== result));
 	};
 
 	const startAgain = () => {
-		results = [];
-		noResultsArtists = [];
+		searchResults.set([]);
+		notFoundSearchResults.set([]);
+		goto('/search');
 	};
 </script>
 
@@ -79,14 +82,14 @@
 	<div class="results">
 		<h1>{playlistName}</h1>
 
-		{#each results as result}
+		{#each $searchResults as result}
 			<Result {result} {removeResult} />
 		{/each}
 
-		{#if noResultsArtists.length > 0}
+		{#if $notFoundSearchResults.length > 0}
 			<h3>not found</h3>
 		{/if}
-		{#each noResultsArtists as artist}
+		{#each $notFoundSearchResults as artist}
 			<NoResult {artist} />
 		{/each}
 	</div>
@@ -94,7 +97,9 @@
 		{#if url}
 			<Button big={true} handleClick={() => (window.location.href = url)}>{playlistName}</Button>
 		{:else}
-			<Button disabled={results.length == 0} big={true} handleClick={generate}>generate</Button>
+			<Button disabled={$searchResults.length == 0} big={true} handleClick={generate}
+				>generate</Button
+			>
 		{/if}
 		<Button big={true} handleClick={startAgain}>reset</Button>
 		<Footer />
@@ -144,12 +149,6 @@
 		color: #aaa;
 	}
 
-	@media screen and (min-width: 576px) {
-		.buttons {
-			flex-direction: column;
-		}
-	}
-
 	@media (min-width: 1024px) {
 		.container {
 			display: grid;
@@ -168,6 +167,8 @@
 			padding-top: 6rem;
 
 			justify-content: space-between;
+
+			flex-direction: column;
 		}
 	}
 </style>

@@ -1,18 +1,19 @@
 <script>
 	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
+	import { getCookie, setCookie } from '$lib/utils/cookies';
+	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-
-	import { getCookie, setCookie } from '$lib/utils/cookies';
 	import randomActs from '$lib/utils/randomActs';
 	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
 
-	export let results;
-	export let playlistName;
-	export let noResultsArtists;
+	let playlistName = '';
 	let artists;
 
-	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
+	$: slugifiedPlaylistName = playlistName.replace(/\W/, '-');
+
+	$: playlistNameStore.set(playlistName);
 
 	if (browser) {
 		// results = JSON.parse(window.localStorage.getItem('results')) || [];
@@ -60,13 +61,15 @@
 						const { value } = promise;
 
 						if (value.artists.total > 0) {
-							results = [...results, value.artists.items[0]];
+							searchResults.update((rs) => [...rs, value.artists.items[0]]);
 						} else {
-							noResultsArtists = [...noResultsArtists, requests[index]];
+							notFoundSearchResults.update((rs) => [...rs, requests[index]]);
 						}
 						return promise.value.artists.items[0];
 					}
 				});
+
+				goto(`/${slugifiedPlaylistName}`);
 			})
 			.catch((error) => console.log(error));
 	};
@@ -95,6 +98,7 @@
 
 	<div class="buttons">
 		<Button big={true} disabled={!(artists && playlistName)} type="submit">search</Button>
+
 		<Footer />
 	</div>
 </form>

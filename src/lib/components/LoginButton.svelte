@@ -1,4 +1,26 @@
-<a class="btn" href="/login">login with Spotify</a>
+<script>
+	import QueryString from 'qs';
+
+	const state = crypto.randomUUID();
+	const scopes = [
+		'playlist-modify-private',
+		'playlist-modify-public',
+		'user-read-private',
+		'user-read-email'
+	].join(' ');
+
+	const redirect_uri =
+		'https://accounts.spotify.com/authorize?' +
+		QueryString.stringify({
+			response_type: 'code',
+			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+			scope: scopes,
+			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
+			state: state
+		});
+</script>
+
+<a class="btn" href={redirect_uri}>login with Spotify</a>
 
 <style>
 	.btn {
