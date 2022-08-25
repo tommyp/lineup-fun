@@ -24,6 +24,10 @@
 	$: title = `${playlistName} | Lineup.fun - a Spotify playlist generator`;
 
 	$: console.log($searchResults);
+	// $: if (!document.referrer.includes('/search')) {
+	// 	goto('/');
+	// }
+	$: console.log(document.referrer);
 
 	const generate = async () => {
 		const artistTracks = await Promise.allSettled(
@@ -66,7 +70,7 @@
 	const startAgain = () => {
 		searchResults.set([]);
 		notFoundSearchResults.set([]);
-		goto('/');
+		goto('/search');
 	};
 </script>
 
