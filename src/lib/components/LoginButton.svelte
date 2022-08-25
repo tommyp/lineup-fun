@@ -1,8 +1,7 @@
 <script>
 	import QueryString from 'qs';
-	import { hex } from 'securerandom';
 
-	const state = hex(16);
+	const state = crypto.randomUUID();
 	const scopes = [
 		'playlist-modify-private',
 		'playlist-modify-public',

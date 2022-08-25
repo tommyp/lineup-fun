@@ -1,7 +1,8 @@
 <script>
 	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
 	import { getCookie, setCookie } from '$lib/utils/cookies';
-	import { searchResults, notFoundSearchResults } from '$lib/stores';
+	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import randomActs from '$lib/utils/randomActs';
@@ -12,7 +13,7 @@
 
 	$: slugifiedPlaylistName = playlistName.replace(/\W/, '-');
 
-	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
+	$: playlistNameStore.set(playlistName);
 
 	if (browser) {
 		// results = JSON.parse(window.localStorage.getItem('results')) || [];
@@ -68,7 +69,7 @@
 					}
 				});
 
-				window.location.pathname = slugifiedPlaylistName;
+				goto(`/${slugifiedPlaylistName}`);
 			})
 			.catch((error) => console.log(error));
 	};

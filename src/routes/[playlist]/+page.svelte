@@ -1,31 +1,45 @@
 <script>
 	import { browser } from '$app/env';
+	import Button from '$lib/components/Button.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
-	import spotify, { spotifyUser } from '$lib/utils/spotify';
-	import chunk from 'chunk';
-	import Button from './Button.svelte';
-	import Footer from './Footer.svelte';
-	import NoResult from './NoResult.svelte';
+	import { getCookie, setCookie } from '$lib/utils/cookies';
+	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
+	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
+	import NoResult from '$lib/components/NoResult.svelte';
+	import Result from '$lib/components/Result.svelte';
 
-	import Result from './Result.svelte';
+	let playlistName = $playlistNameStore;
+	let artists;
+	let results = [];
+	let noResultsArtists = [];
+	let url;
 
-	export let results;
-	export let playlistName;
-	export let noResultsArtists;
-	let url = '';
+	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
 	if (browser) {
-		const storedPlaylistName = window.localStorage.getItem('playlistName');
-		if (storedPlaylistName) {
-			playlistName = storedPlaylistName;
+		// results = JSON.parse(window.localStorage.getItem('results')) || [];
+		const url = new URL(window.location.href);
+		const token = url.searchParams.get('accessToken');
+		if (token) {
+			setCookie('spotify-access-token', token, 3600);
+
+			url.searchParams.delete('accessToken');
+			window.history.pushState({}, '', url);
+		}
+
+		const accessToken = getCookie('spotify-access-token');
+		if (accessToken) {
+			spotify.setAccessToken(accessToken);
+			saveSpotifyUser();
 		}
 	}
 
-	$: artistIds = results.filter((a) => a).map((a) => a.id);
+	$: artistIds = $searchResults.filter((a) => a).map((a) => a.id);
 
 	$: title = `${playlistName} | Lineup.fun - a Spotify playlist generator`;
 
-	$: console.log(results);
+	$: console.log($searchResults);
 
 	const generate = async () => {
 		const artistTracks = await Promise.allSettled(
@@ -62,12 +76,12 @@
 	};
 
 	const removeResult = (result) => {
-		results = results.filter((r) => r !== result);
+		$searchResults.update((results) => results.filter((r) => r !== result));
 	};
 
 	const startAgain = () => {
-		results = [];
-		noResultsArtists = [];
+		searchResults.set([]);
+		notFoundSearchResults.set([]);
 	};
 </script>
 
@@ -79,14 +93,14 @@
 	<div class="results">
 		<h1>{playlistName}</h1>
 
-		{#each results as result}
+		{#each $searchResults as result}
 			<Result {result} {removeResult} />
 		{/each}
 
-		{#if noResultsArtists.length > 0}
+		{#if $notFoundSearchResults.length > 0}
 			<h3>not found</h3>
 		{/if}
-		{#each noResultsArtists as artist}
+		{#each $notFoundSearchResults as artist}
 			<NoResult {artist} />
 		{/each}
 	</div>
