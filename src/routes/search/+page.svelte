@@ -1,19 +1,16 @@
 <script>
 	import { browser } from '$app/env';
-	import Results from '$lib/components/Results.svelte';
-	import Search from '$lib/components/Search.svelte';
 	import { getCookie, setCookie } from '$lib/utils/cookies';
-	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
-	import { fly } from 'svelte/transition';
-	import randomActs from '$lib/utils/randomActs';
-	import Button from '../../lib/components/Button.svelte';
-
-	let playlistName;
-	let artists;
-	let results = [];
-	let noResultsArtists = [];
-
 	import { searchResults, notFoundSearchResults } from '$lib/stores';
+	import Button from '$lib/components/Button.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import randomActs from '$lib/utils/randomActs';
+	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
+
+	let playlistName = '';
+	let artists;
+
+	$: slugifiedPlaylistName = playlistName.replace(/\W/, '-');
 
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
@@ -70,6 +67,8 @@
 						return promise.value.artists.items[0];
 					}
 				});
+
+				window.location.pathname = slugifiedPlaylistName;
 			})
 			.catch((error) => console.log(error));
 	};
@@ -98,6 +97,8 @@
 
 	<div class="buttons">
 		<Button big={true} disabled={!(artists && playlistName)} type="submit">search</Button>
+
+		<Footer />
 	</div>
 </form>
 
