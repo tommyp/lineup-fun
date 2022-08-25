@@ -26,7 +26,21 @@
 		height: 100vh;
 		padding-bottom: 2rem;
 	}
+
+	h1 {
+		font-size: 10rem;
+		letter-spacing: 0;
+		font-weight: bold;
+	}
+
+	h2 {
+		font-size: 4rem;
+		letter-spacing: 0;
+	}
 	@media (min-width: 576px) {
+		h1 {
+			font-size: 4rem;
+		}
 		h2 {
 			line-height: auto;
 			margin-bottom: 1rem;

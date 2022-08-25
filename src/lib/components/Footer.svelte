@@ -13,6 +13,12 @@
 		display: block;
 	}
 
+	@media screen and (min-width: 390px) {
+		footer {
+			display: none;
+		}
+	}
+
 	a {
 		color: var(--nearly-black);
 		transition: color 0.2s ease-in-out;
