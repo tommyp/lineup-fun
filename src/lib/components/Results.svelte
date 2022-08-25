@@ -96,7 +96,7 @@
 		{:else}
 			<Button disabled={results.length == 0} big={true} handleClick={generate}>generate</Button>
 		{/if}
-		<Button big={true} handleClick={startAgain}>start again</Button>
+		<Button big={true} handleClick={startAgain}>reset</Button>
 		<Footer />
 	</div>
 </div>
@@ -131,15 +131,23 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
-		flex-direction: column;
+
 		gap: 2rem;
 
 		width: 100%;
-		padding-bottom: 1rem;
+		padding-top: 1rem;
+		padding-bottom: 5rem;
+		max-width: 100%;
 	}
 
 	h3 {
 		color: #aaa;
+	}
+
+	@media screen and (min-width: 576px) {
+		.buttons {
+			flex-direction: column;
+		}
 	}
 
 	@media (min-width: 1024px) {

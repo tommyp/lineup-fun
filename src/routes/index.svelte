@@ -39,11 +39,12 @@
 	}
 	@media (min-width: 576px) {
 		h1 {
-			font-size: 4rem;
+			font-size: 20rem;
 		}
 		h2 {
 			line-height: auto;
 			margin-bottom: 1rem;
+			font-size: 10rem;
 		}
 	}
 </style>

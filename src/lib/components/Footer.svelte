@@ -10,12 +10,12 @@
 
 		text-align: right;
 		width: 100%;
-		display: block;
+		display: none;
 	}
 
-	@media screen and (min-width: 390px) {
+	@media screen and (min-width: 578px) {
 		footer {
-			display: none;
+			display: block;
 		}
 	}
 

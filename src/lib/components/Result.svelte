@@ -10,11 +10,11 @@
 <div class="result">
 	<div class="artist">
 		{#if image}
-			<img width="100px" height="100px" src={image} alt={result.name} />
+			<img src={image} alt={result.name} />
 		{/if}
 		<div class="text">
 			<h2>{result.name}</h2>
-			<p>{result.genres.slice(0, 3).join(', ')}</p>
+			<p>{result.genres.slice(0, 2).join(', ')}</p>
 		</div>
 	</div>
 
@@ -43,12 +43,12 @@
 		align-items: center;
 		justify-content: space-between;
 		min-height: 100px;
+		position: relative;
 	}
 
 	.artist {
 		display: flex;
 		gap: 1rem;
-		align-items: center;
 	}
 
 	.button {
@@ -56,6 +56,8 @@
 		appearance: none;
 		border: 0;
 		background: 0;
+		position: absolute;
+		right: 0;
 
 		align-items: center;
 	}
@@ -74,6 +76,19 @@
 	}
 
 	p {
+		line-height: 0.75;
 		font-size: 2.5rem;
+	}
+
+	img {
+		width: 75px;
+		height: 75px;
+	}
+
+	@media (min-width: 576px) {
+		img {
+			width: 100px;
+			height: 100px;
+		}
 	}
 </style>

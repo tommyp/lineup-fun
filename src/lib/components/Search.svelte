@@ -150,7 +150,7 @@
 	}
 
 	label {
-		font-size: 5rem;
+		font-size: 4em;
 		display: flex;
 		flex-direction: column;
 		gap: 0.25rem;
@@ -164,7 +164,7 @@
 	input,
 	textarea {
 		font-family: 'Commune_Nuit_Debout';
-		font-size: 5rem;
+		font-size: 4rem;
 		background: none;
 		border: 2px solid var(--highlight);
 		transition: border-color 0.2s ease-in-out;
@@ -179,5 +179,13 @@
 	textarea {
 		flex-grow: 1;
 		display: flex;
+	}
+
+	@media screen and (min-width: 576px) {
+		label,
+		input,
+		textarea {
+			font-size: 5rem;
+		}
 	}
 </style>

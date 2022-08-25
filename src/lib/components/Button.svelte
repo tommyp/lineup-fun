@@ -29,8 +29,7 @@
 	}
 
 	.big {
-		padding: 1rem 4rem;
-		font-size: 4rem;
+		font-size: 3rem;
 	}
 
 	.square {
@@ -40,5 +39,12 @@
 	button:hover {
 		background: var(--active);
 		color: var(--background);
+	}
+
+	@media screen and (min-width: 576px) {
+		.big {
+			padding: 1rem 4rem;
+			font-size: 4rem;
+		}
 	}
 </style>
