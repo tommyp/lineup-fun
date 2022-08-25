@@ -25,6 +25,8 @@
 
 	$: title = `${playlistName} | Lineup.fun - a Spotify playlist generator`;
 
+	$: console.log(results);
+
 	const generate = async () => {
 		const artistTracks = await Promise.allSettled(
 			artistIds.map((id) => spotify.getArtistTopTracks(id, 'GB'))

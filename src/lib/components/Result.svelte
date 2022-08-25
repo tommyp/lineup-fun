@@ -8,12 +8,14 @@
 </script>
 
 <div class="result">
-	<div>
+	<div class="artist">
 		{#if image}
 			<img width="100px" height="100px" src={image} alt={result.name} />
 		{/if}
-
-		<p>{result.name}</p>
+		<div class="text">
+			<h2>{result.name}</h2>
+			<p>{result.genres.slice(0, 3).join(', ')}</p>
+		</div>
 	</div>
 
 	<div class="button">
@@ -42,7 +44,7 @@
 		justify-content: space-between;
 	}
 
-	div {
+	.artist {
 		display: flex;
 		gap: 1rem;
 		align-items: center;
@@ -66,7 +68,11 @@
 		display: flex;
 	}
 
-	p {
+	h2 {
 		font-size: 4rem;
+	}
+
+	p {
+		font-size: 2.5rem;
 	}
 </style>
