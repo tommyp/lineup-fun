@@ -28,11 +28,13 @@ export async function GET({ url }) {
 		return new Response(undefined, {
 			status: 301,
 			headers: {
-				location: `/lineup?accessToken=${body.access_token}`
+				location: `/search?accessToken=${body.access_token}`
 			}
 		});
 	} else {
-		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)");
+		throw new Error(
+			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
+		);
 		// Suggestion (check for correctness before using):
 		// return json$1(body, {
 		// 	status: 500
