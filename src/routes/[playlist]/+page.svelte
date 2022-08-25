@@ -4,10 +4,12 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	import { getCookie, setCookie } from '$lib/utils/cookies';
-	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
+	import spotify, { saveSpotifyUser, spotifyUser } from '$lib/utils/spotify';
 	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
 	import NoResult from '$lib/components/NoResult.svelte';
 	import Result from '$lib/components/Result.svelte';
+	import { goto } from '$app/navigation';
+	import chunk from 'chunk';
 
 	let playlistName = $playlistNameStore;
 	let artists;
@@ -16,24 +18,6 @@
 	let url;
 
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
-
-	if (browser) {
-		// results = JSON.parse(window.localStorage.getItem('results')) || [];
-		const url = new URL(window.location.href);
-		const token = url.searchParams.get('accessToken');
-		if (token) {
-			setCookie('spotify-access-token', token, 3600);
-
-			url.searchParams.delete('accessToken');
-			window.history.pushState({}, '', url);
-		}
-
-		const accessToken = getCookie('spotify-access-token');
-		if (accessToken) {
-			spotify.setAccessToken(accessToken);
-			saveSpotifyUser();
-		}
-	}
 
 	$: artistIds = $searchResults.filter((a) => a).map((a) => a.id);
 
@@ -82,6 +66,7 @@
 	const startAgain = () => {
 		searchResults.set([]);
 		notFoundSearchResults.set([]);
+		goto('/');
 	};
 </script>
 
@@ -108,7 +93,9 @@
 		{#if url}
 			<Button big={true} handleClick={() => (window.location.href = url)}>{playlistName}</Button>
 		{:else}
-			<Button disabled={results.length == 0} big={true} handleClick={generate}>generate</Button>
+			<Button disabled={$searchResults.length == 0} big={true} handleClick={generate}
+				>generate</Button
+			>
 		{/if}
 		<Button big={true} handleClick={startAgain}>reset</Button>
 		<Footer />
@@ -158,12 +145,6 @@
 		color: #aaa;
 	}
 
-	@media screen and (min-width: 576px) {
-		.buttons {
-			flex-direction: column;
-		}
-	}
-
 	@media (min-width: 1024px) {
 		.container {
 			display: grid;
@@ -182,6 +163,8 @@
 			padding-top: 6rem;
 
 			justify-content: space-between;
+
+			flex-direction: column;
 		}
 	}
 </style>

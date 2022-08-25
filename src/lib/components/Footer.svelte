@@ -13,7 +13,7 @@
 		display: none;
 	}
 
-	@media screen and (min-width: 578px) {
+	@media screen and (min-width: 1024px) {
 		footer {
 			display: block;
 		}
