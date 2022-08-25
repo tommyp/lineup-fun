@@ -57,7 +57,7 @@
 		border: 0;
 		background: 0;
 		position: absolute;
-		right: 0;
+		right: 20px;
 
 		align-items: center;
 	}
