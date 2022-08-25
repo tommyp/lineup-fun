@@ -13,6 +13,8 @@
 	let results = [];
 	let noResultsArtists = [];
 
+	import { searchResults, notFoundSearchResults } from '$lib/stores';
+
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
 	if (browser) {
@@ -61,9 +63,9 @@
 						const { value } = promise;
 
 						if (value.artists.total > 0) {
-							results = [...results, value.artists.items[0]];
+							searchResults.update((rs) => [...rs, value.artists.items[0]]);
 						} else {
-							noResultsArtists = [...noResultsArtists, requests[index]];
+							notFoundSearchResults.update((rs) => [...rs, requests[index]]);
 						}
 						return promise.value.artists.items[0];
 					}
