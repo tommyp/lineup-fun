@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="button">
-		<Button on:click={() => removeResult(result)}>
+		<Button on:click={() => removeResult(result)} square={true}>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-5 w-5"
@@ -53,11 +53,8 @@
 		appearance: none;
 		border: 0;
 		background: 0;
-		color: #fff;
-		background: var(--neon-orange);
 
 		align-items: center;
-		padding: 1rem;
 	}
 
 	svg {

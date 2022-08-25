@@ -1,11 +1,12 @@
 <script>
 	export let type = '';
 	export let big = false;
+	export let square = false;
 	export let disabled = false;
 	export let handleClick = () => {};
 </script>
 
-<button on:click={handleClick} {disabled} class:big {type}> <slot /> </button>
+<button on:click={handleClick} {disabled} class:big class:square {type}> <slot /> </button>
 
 <style>
 	button {
@@ -30,6 +31,10 @@
 	.big {
 		padding: 1rem 4rem;
 		font-size: 4rem;
+	}
+
+	.square {
+		padding: 2rem;
 	}
 
 	button:hover {
