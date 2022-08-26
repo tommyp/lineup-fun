@@ -166,6 +166,7 @@
 
 		.buttons {
 			padding-top: 6rem;
+			padding-bottom: 1rem;
 
 			justify-content: space-between;
 
