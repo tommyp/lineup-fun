@@ -1,8 +1,15 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
 	import Button from './Button.svelte';
 
 	export let result;
-	export let removeResult = null;
+
+	const removeResult = () => {
+		dispatch('removeResult', { result });
+	};
 
 	$: image = result.images[2]?.url;
 </script>
@@ -19,7 +26,7 @@
 	</div>
 
 	<div class="button">
-		<Button on:click={() => removeResult(result)} square={true}>
+		<Button handleClick={removeResult} square={true}>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-5 w-5"

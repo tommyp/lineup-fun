@@ -63,8 +63,9 @@
 		url = playlist.external_urls.spotify;
 	};
 
-	const removeResult = (result) => {
-		$searchResults.update((results) => results.filter((r) => r !== result));
+	const removeResult = (ev) => {
+		const { result } = ev.detail;
+		searchResults.update((results) => results.filter((r) => r !== result));
 	};
 
 	const startAgain = () => {
@@ -83,7 +84,7 @@
 		<h1>{playlistName}</h1>
 
 		{#each $searchResults as result}
-			<Result {result} {removeResult} />
+			<Result {result} on:removeResult={removeResult} />
 		{/each}
 
 		{#if $notFoundSearchResults.length > 0}
