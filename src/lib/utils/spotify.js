@@ -1,5 +1,4 @@
 import SpotifyWebApi from 'spotify-web-api-js';
-import { setCookie } from './cookies';
 
 const spotify = new SpotifyWebApi();
 
@@ -11,7 +10,6 @@ export const saveSpotifyUser = async () => {
 		.then((resp) => localStorage.setItem('spotify_user', JSON.stringify(resp)))
 		.catch((err) => {
 			console.log(err);
-			setCookie('spotify-access-token', null);
 		});
 };
 

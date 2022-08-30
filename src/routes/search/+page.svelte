@@ -19,21 +19,30 @@
 		// results = JSON.parse(window.localStorage.getItem('results')) || [];
 		const url = new URL(window.location.href);
 		const token = url.searchParams.get('accessToken');
+		console.log({ token });
 		if (token) {
-			setCookie('spotify-access-token', token, 3600);
+			setCookie('spotify-access-token', token, 1);
 
 			url.searchParams.delete('accessToken');
 			window.history.pushState({}, '', url);
-		}
 
-		const accessToken = getCookie('spotify-access-token');
-		if (accessToken) {
 			try {
-				spotify.setAccessToken(accessToken);
+				spotify.setAccessToken(token);
 			} catch {
 				window.location.pathname = '/';
 			}
 			saveSpotifyUser();
+		} else {
+			const accessToken = getCookie('spotify-access-token');
+			console.log({ accessToken });
+			if (accessToken) {
+				try {
+					spotify.setAccessToken(accessToken);
+				} catch {
+					window.location.pathname = '/';
+				}
+				saveSpotifyUser();
+			}
 		}
 	}
 
