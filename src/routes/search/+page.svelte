@@ -7,9 +7,11 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import randomActs from '$lib/utils/randomActs';
 	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
+	import TextInput from '../../lib/components/TextInput.svelte';
+	import TextArea from '../../lib/components/TextArea.svelte';
 
 	let playlistName = '';
-	let artists;
+	let artists = '';
 
 	$: slugifiedPlaylistName = playlistName.replace(/\W/, '-');
 
@@ -88,11 +90,8 @@
 	<div class="inputs">
 		<label for="playlistName"
 			>playlist name
-			<input
-				type="text"
+			<TextInput
 				name="playlistName"
-				id="playlistName"
-				autoComplete="off"
 				required
 				placeholder="Fyre Festival 2022"
 				bind:value={playlistName}
@@ -101,7 +100,7 @@
 
 		<label for="artists">
 			artists
-			<textarea id="artists" name="artists" placeholder={randomActs()} bind:value={artists} />
+			<TextArea name="artists" placeholder={randomActs()} bind:value={artists} />
 		</label>
 	</div>
 
@@ -174,30 +173,8 @@
 		display: flex;
 	}
 
-	input,
-	textarea {
-		font-family: 'Commune_Nuit_Debout';
-		font-size: 4rem;
-		background: none;
-		border: 2px solid var(--highlight);
-		transition: border-color 0.2s ease-in-out;
-		padding: 0.25rem;
-	}
-
-	input:focus,
-	textarea:focus {
-		border-color: var(--active);
-	}
-
-	textarea {
-		flex-grow: 1;
-		display: flex;
-	}
-
 	@media screen and (min-width: 576px) {
-		label,
-		input,
-		textarea {
+		label {
 			font-size: 5rem;
 		}
 	}
