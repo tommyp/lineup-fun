@@ -7,9 +7,12 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import randomActs from '$lib/utils/randomActs';
 	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
+	import TextInput from '$lib/components/TextInput.svelte';
+	import TextArea from '$lib/components/TextArea.svelte';
+	import Label from '../../lib/components/Label.svelte';
 
 	let playlistName = '';
-	let artists;
+	let artists = '';
 
 	$: slugifiedPlaylistName = playlistName.replace(/\W/, '-');
 
@@ -86,23 +89,16 @@
 
 <form on:submit|preventDefault={handleSubmit}>
 	<div class="inputs">
-		<label for="playlistName"
-			>playlist name
-			<input
-				type="text"
-				name="playlistName"
-				id="playlistName"
-				autoComplete="off"
-				required
-				placeholder="Fyre Festival 2022"
-				bind:value={playlistName}
-			/>
-		</label>
+		<Label for="playlistName">playlist name</Label>
+		<TextInput
+			name="playlistName"
+			required
+			placeholder="Fyre Festival 2022"
+			bind:value={playlistName}
+		/>
 
-		<label for="artists">
-			artists
-			<textarea id="artists" name="artists" placeholder={randomActs()} bind:value={artists} />
-		</label>
+		<Label for="artists">artists</Label>
+		<TextArea name="artists" placeholder={randomActs()} bind:value={artists} />
 	</div>
 
 	<div class="buttons">
@@ -162,43 +158,8 @@
 		}
 	}
 
-	label {
-		font-size: 4em;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
 	label[for='artists'] {
 		flex-grow: 1;
 		display: flex;
-	}
-
-	input,
-	textarea {
-		font-family: 'Commune_Nuit_Debout';
-		font-size: 4rem;
-		background: none;
-		border: 2px solid var(--highlight);
-		transition: border-color 0.2s ease-in-out;
-		padding: 0.25rem;
-	}
-
-	input:focus,
-	textarea:focus {
-		border-color: var(--active);
-	}
-
-	textarea {
-		flex-grow: 1;
-		display: flex;
-	}
-
-	@media screen and (min-width: 576px) {
-		label,
-		input,
-		textarea {
-			font-size: 5rem;
-		}
 	}
 </style>
