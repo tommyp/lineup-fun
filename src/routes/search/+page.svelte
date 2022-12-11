@@ -7,8 +7,9 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import randomActs from '$lib/utils/randomActs';
 	import spotify, { saveSpotifyUser } from '$lib/utils/spotify';
-	import TextInput from '../../lib/components/TextInput.svelte';
-	import TextArea from '../../lib/components/TextArea.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
+	import TextArea from '$lib/components/TextArea.svelte';
+	import Label from '../../lib/components/Label.svelte';
 
 	let playlistName = '';
 	let artists = '';
@@ -88,20 +89,16 @@
 
 <form on:submit|preventDefault={handleSubmit}>
 	<div class="inputs">
-		<label for="playlistName"
-			>playlist name
-			<TextInput
-				name="playlistName"
-				required
-				placeholder="Fyre Festival 2022"
-				bind:value={playlistName}
-			/>
-		</label>
+		<Label for="playlistName">playlist name</Label>
+		<TextInput
+			name="playlistName"
+			required
+			placeholder="Fyre Festival 2022"
+			bind:value={playlistName}
+		/>
 
-		<label for="artists">
-			artists
-			<TextArea name="artists" placeholder={randomActs()} bind:value={artists} />
-		</label>
+		<Label for="artists">artists</Label>
+		<TextArea name="artists" placeholder={randomActs()} bind:value={artists} />
 	</div>
 
 	<div class="buttons">
@@ -161,21 +158,8 @@
 		}
 	}
 
-	label {
-		font-size: 4em;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
 	label[for='artists'] {
 		flex-grow: 1;
 		display: flex;
-	}
-
-	@media screen and (min-width: 576px) {
-		label {
-			font-size: 5rem;
-		}
 	}
 </style>
