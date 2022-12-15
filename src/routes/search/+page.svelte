@@ -12,7 +12,7 @@
 	import Label from '../../lib/components/Label.svelte';
 
 	let playlistName = '';
-	let artists = '';
+	let searchQuery = '';
 
 	$: slugifiedPlaylistName = playlistName.replace(/\W/, '-');
 
@@ -51,7 +51,7 @@
 
 	const handleSubmit = () => {
 		window.localStorage.setItem('playlistName', playlistName);
-		const requests = artists
+		const queries = searchQuery
 			.split('\n')
 			.map((a) => a.split(','))
 			.flat()
@@ -59,12 +59,31 @@
 			.flat()
 			.map((a) => a.trim());
 		Promise.allSettled(
-			requests.map((artist) => {
-				try {
-					return spotify.searchArtists(artist);
-				} catch {
-					window.location.pathname = '/';
+			queries.forEach((query) => {
+				if (query.includes('-')) {
+					const [artist, album] = query.split('-');
+					spotify.searchAlbums(album).then((albums) => {
+						if (albums.albums.total > 0) {
+							const album = albums.albums.items[0];
+							spotify.getArtist(album.artists[0].id).then((artist) => {
+								artist;
+							});
+						} else {
+							spotify.searchArtists(artist).then((artists) => {
+								if (artists.artists.total > 0) {
+									artists.artists.items[0];
+								} else {
+									null;
+								}
+							});
+						}
+					});
 				}
+				// try {
+				// 	return spotify.searchArtists(artist);
+				// } catch {
+				// 	window.location.pathname = '/';
+				// }
 			})
 		)
 			.then((promises) => {
@@ -75,7 +94,7 @@
 						if (value.artists.total > 0) {
 							searchResults.update((rs) => [...rs, value.artists.items[0]]);
 						} else {
-							notFoundSearchResults.update((rs) => [...rs, requests[index]]);
+							notFoundSearchResults.update((rs) => [...rs, queries[index]]);
 						}
 						return promise.value.artists.items[0];
 					}
@@ -89,7 +108,7 @@
 
 <form on:submit|preventDefault={handleSubmit}>
 	<div class="inputs">
-		<Label for="playlistName">playlist name</Label>
+		<Label htmlFor="playlistName">playlist name</Label>
 		<TextInput
 			name="playlistName"
 			required
@@ -97,12 +116,12 @@
 			bind:value={playlistName}
 		/>
 
-		<Label for="artists">artists</Label>
-		<TextArea name="artists" placeholder={randomActs()} bind:value={artists} />
+		<Label htmlFor="search-query">artists or artist - album</Label>
+		<TextArea name="search-query" placeholder={randomActs()} bind:value={searchQuery} />
 	</div>
 
 	<div class="buttons">
-		<Button big={true} disabled={!(artists && playlistName)} type="submit">search</Button>
+		<Button big={true} disabled={!(searchQuery && playlistName)} type="submit">search</Button>
 
 		<Footer />
 	</div>
