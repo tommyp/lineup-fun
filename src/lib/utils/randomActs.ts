@@ -1,11 +1,11 @@
 const fictionalActs = [
-	'Ali G',
+	'Ali G - Me Julie',
 	'Chemical Toilet',
-	'Conner4Real',
-	'Dethklok',
+	'Conner4Real - Thriller',
+	'Dethklok - The Deathalbum',
 	'Electric Dream Machine',
 	'PaRappa The Rappa',
-	'Spinal Tap',
+	'Spın̈al Tap - This Is Spın̈al Tap',
 	'The Style Boyz'
 ];
 
