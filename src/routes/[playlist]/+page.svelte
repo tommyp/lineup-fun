@@ -7,18 +7,17 @@
 	import spotify, { saveSpotifyUser, spotifyUser } from '$lib/utils/spotify';
 	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
 	import NoResult from '$lib/components/NoResult.svelte';
-	import Result from '$lib/components/Result.svelte';
+	import ArtistResult from '$lib/components/ArtistResult.svelte';
 	import { goto } from '$app/navigation';
 	import chunk from 'chunk';
+	import AlbumResult from '$lib/components/AlbumResult.svelte';
 
 	let playlistName = $playlistNameStore;
-	let artists;
 	let results = [];
-	let noResultsArtists = [];
 	let url;
 
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
-	$: artistIds = $searchResults.filter((a) => a).map((a) => a.id);
+
 	$: title = `${playlistName} | Lineup.fun - a Spotify playlist generator`;
 	$: console.log($searchResults);
 	// $: if (!document.referrer.includes('/search')) {
@@ -27,16 +26,29 @@
 	// $: console.log(document.referrer);
 
 	const generate = async () => {
-		const artistTracks = await Promise.allSettled(
-			artistIds.map((id) => spotify.getArtistTopTracks(id, 'GB'))
+		const trackUris = await Promise.allSettled(
+			$searchResults.map((result) => {
+				if (result.type === 'artist') {
+					return spotify.getArtistTopTracks(result.id, 'GB').then((resp) => {
+						return resp.tracks.map((track) => track.uri);
+					});
+				} else {
+					return spotify.getAlbumTracks(result.id, 'GB').then((resp) => {
+						return resp.items.map((track) => track.uri);
+					});
+				}
+			})
 		).then((promises) => {
 			return promises.map((promise) => {
-				console.log(promise);
 				if (promise.status === 'fulfilled') {
-					return promise.value.tracks;
+					return promise.value;
+				} else {
+					return [];
 				}
 			});
 		});
+
+		console.log(trackUris);
 
 		const user = spotifyUser();
 
@@ -47,14 +59,11 @@
 			})
 			.then((resp) => resp);
 
-		const chunked_tracks = chunk(artistTracks.flat(), 100);
+		const chunkedTrackUris = chunk(trackUris.flat(), 100);
 
 		await Promise.allSettled(
-			chunked_tracks.map((chunk) => {
-				return spotify.addTracksToPlaylist(
-					playlist.id,
-					chunk.map((track) => track.uri)
-				);
+			chunkedTrackUris.map((chunk) => {
+				return spotify.addTracksToPlaylist(playlist.id, chunk);
 			})
 		);
 
@@ -82,14 +91,18 @@
 		<h1>{playlistName}</h1>
 
 		{#each $searchResults as result}
-			<Result {result} on:removeResult={removeResult} />
+			{#if result.type == 'artist'}
+				<ArtistResult {result} on:removeResult={removeResult} />
+			{:else if result.type == 'album'}
+				<AlbumResult {result} on:removeResult={removeResult} />
+			{/if}
 		{/each}
 
 		{#if $notFoundSearchResults.length > 0}
 			<h3>not found</h3>
 		{/if}
-		{#each $notFoundSearchResults as artist}
-			<NoResult {artist} />
+		{#each $notFoundSearchResults as query}
+			<NoResult {query} />
 		{/each}
 	</div>
 	<div class="buttons">
