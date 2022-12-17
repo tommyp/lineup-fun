@@ -1,12 +1,12 @@
 <script>
 	import Button from './Button.svelte';
 
-	export let artist;
+	export let query;
 </script>
 
 <div class="result notFound">
 	<div>
-		<p>{artist}</p>
+		<p>{query}</p>
 	</div>
 </div>
 

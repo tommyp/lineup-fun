@@ -10,6 +10,7 @@
 	import TextInput from '$lib/components/TextInput.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import Label from '../../lib/components/Label.svelte';
+	import { error } from '@sveltejs/kit';
 
 	let playlistName = '';
 	let searchQuery = '';
@@ -58,51 +59,34 @@
 			.map((a) => a.split('b2b'))
 			.flat()
 			.map((a) => a.trim());
-		Promise.allSettled(
+
+		try {
 			queries.forEach((query) => {
 				if (query.includes('-')) {
 					const [artist, album] = query.split('-');
-					spotify.searchAlbums(album).then((albums) => {
-						if (albums.albums.total > 0) {
-							const album = albums.albums.items[0];
-							spotify.getArtist(album.artists[0].id).then((artist) => {
-								artist;
-							});
+
+					spotify.searchAlbums(album).then((resp) => {
+						if (resp.albums.total > 0) {
+							searchResults.update((rs) => [...rs, resp.albums.items[0]]);
 						} else {
-							spotify.searchArtists(artist).then((artists) => {
-								if (artists.artists.total > 0) {
-									artists.artists.items[0];
-								} else {
-									null;
-								}
-							});
+							notFoundSearchResults.update((rs) => [...rs, query]);
+						}
+					});
+				} else {
+					spotify.searchArtists(query).then((resp) => {
+						if (resp.artists.total > 0) {
+							searchResults.update((rs) => [...rs, resp.artists.items[0]]);
+						} else {
+							notFoundSearchResults.update((rs) => [...rs, query]);
 						}
 					});
 				}
-				// try {
-				// 	return spotify.searchArtists(artist);
-				// } catch {
-				// 	window.location.pathname = '/';
-				// }
-			})
-		)
-			.then((promises) => {
-				promises.forEach((promise, index) => {
-					if (promise.status === 'fulfilled') {
-						const { value } = promise;
+			});
 
-						if (value.artists.total > 0) {
-							searchResults.update((rs) => [...rs, value.artists.items[0]]);
-						} else {
-							notFoundSearchResults.update((rs) => [...rs, queries[index]]);
-						}
-						return promise.value.artists.items[0];
-					}
-				});
-
-				goto(`/${slugifiedPlaylistName}`);
-			})
-			.catch((error) => console.log(error));
+			goto(`/${slugifiedPlaylistName}`);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 </script>
 

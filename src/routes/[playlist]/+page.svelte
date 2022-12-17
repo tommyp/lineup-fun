@@ -7,9 +7,10 @@
 	import spotify, { saveSpotifyUser, spotifyUser } from '$lib/utils/spotify';
 	import { searchResults, notFoundSearchResults, playlistNameStore } from '$lib/stores';
 	import NoResult from '$lib/components/NoResult.svelte';
-	import Result from '$lib/components/Result.svelte';
+	import ArtistResult from '$lib/components/ArtistResult.svelte';
 	import { goto } from '$app/navigation';
 	import chunk from 'chunk';
+	import AlbumResult from '$lib/components/AlbumResult.svelte';
 
 	let playlistName = $playlistNameStore;
 	let artists;
@@ -82,14 +83,18 @@
 		<h1>{playlistName}</h1>
 
 		{#each $searchResults as result}
-			<Result {result} on:removeResult={removeResult} />
+			{#if result.type == 'artist'}
+				<ArtistResult {result} on:removeResult={removeResult} />
+			{:else if result.type == 'album'}
+				<AlbumResult {result} on:removeResult={removeResult} />
+			{/if}
 		{/each}
 
 		{#if $notFoundSearchResults.length > 0}
 			<h3>not found</h3>
 		{/if}
-		{#each $notFoundSearchResults as artist}
-			<NoResult {artist} />
+		{#each $notFoundSearchResults as query}
+			<NoResult {query} />
 		{/each}
 	</div>
 	<div class="buttons">
