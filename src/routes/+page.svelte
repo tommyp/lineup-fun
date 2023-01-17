@@ -1,14 +1,17 @@
 <script>
-	import { browser } from '$app/env';
 	import Footer from '$lib/components/Footer.svelte';
 	import LoginButton from '$lib/components/LoginButton.svelte';
+
+	export let data;
+
+	$: uuid = data.uuid;
 </script>
 
 <div class="container">
 	<div class="hero">
 		<h1>lineup.fun</h1>
 		<h2>a spotify playlist generator</h2>
-		<LoginButton />
+		<LoginButton {uuid} />
 	</div>
 	<Footer />
 </div>

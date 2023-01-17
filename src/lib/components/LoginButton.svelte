@@ -1,7 +1,8 @@
 <script>
 	import QueryString from 'qs';
 
-	const state = crypto.randomUUID();
+	export let uuid;
+
 	const scopes = [
 		'playlist-modify-private',
 		'playlist-modify-public',
@@ -16,7 +17,7 @@
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
 			scope: scopes,
 			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
-			state: state
+			state: uuid
 		});
 </script>
 
