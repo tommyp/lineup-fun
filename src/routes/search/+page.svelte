@@ -56,7 +56,13 @@
 			.split('\n')
 			.map((a) => a.split(','))
 			.flat()
+			.map((a) => a.split('&'))
+			.flat()
 			.map((a) => a.split('b2b'))
+			.flat()
+			.map((a) => a.replace('(DJ set)', ''))
+			.flat()
+			.map((a) => a.replace('DJ set', ''))
 			.flat()
 			.map((a) => a.trim());
 
