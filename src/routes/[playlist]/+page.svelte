@@ -85,7 +85,12 @@
 
 	const openResults = (ev) => {
 		const { index } = ev.detail;
+
 		openResultIndex = index;
+	};
+
+	const closeResults = (ev) => {
+		openResultIndex = null;
 	};
 
 	const startAgain = () => {
@@ -107,8 +112,10 @@
 			{#if results[0].type == 'artist'}
 				<ArtistResult
 					{results}
+					index={i}
 					on:removeResult={removeResult}
 					on:openResults={openResults}
+					on:closeResults={closeResults}
 					dropdownOpen={i === openResultIndex}
 				/>
 			{:else if results[0].type == 'album'}

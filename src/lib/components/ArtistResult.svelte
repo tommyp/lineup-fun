@@ -5,12 +5,11 @@
 	const dispatch = createEventDispatcher();
 
 	export let results;
+	export let index;
 	export let dropdownOpen = false;
 
 	let selectedResultIndex = 0;
 	$: selectedResult = results[selectedResultIndex];
-
-	let index;
 
 	const removeResult = () => {
 		dispatch('removeResult', { index });
@@ -18,6 +17,10 @@
 
 	const openResults = () => {
 		dispatch('openResults', { index });
+	};
+
+	const closeResults = () => {
+		dispatch('closeResults', { index });
 	};
 
 	$: selectedImage = selectedResult.images[2]?.url;
@@ -36,7 +39,7 @@
 		</div>
 
 		<div class="buttons">
-			<Button handleClick={() => (dropdownOpen = !dropdownOpen)} square>
+			<Button handleClick={() => (dropdownOpen ? closeResults() : openResults())} square>
 				{#if dropdownOpen}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -91,22 +94,37 @@
 						</div>
 					</div>
 					<div class="buttons">
-						<Button handleClick={removeResult} square={true}>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="w-6 h-6"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
-						</Button>
+						{#if selectedResultIndex === i}
+							<Button disabled square={true}>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+								</svg>
+							</Button>
+						{:else}
+							<Button handleClick={removeResult} square={true}>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</Button>
+						{/if}
 					</div>
 				</div>
 			{/each}

@@ -29,6 +29,7 @@
 
 	button:disabled {
 		background-color: #ddd;
+		cursor: no-drop;
 	}
 
 	.big {
