@@ -1,17 +1,23 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
+	import Button from './Button.svelte';
 
 	const dispatch = createEventDispatcher();
 
-	import Button from './Button.svelte';
-
 	export let results;
-	$: selectedResult = results[0];
+	export let dropdownOpen = false;
 
-	let dropdownOpen = false;
+	let selectedResultIndex = 0;
+	$: selectedResult = results[selectedResultIndex];
+
+	let index;
 
 	const removeResult = () => {
-		dispatch('removeResult', { result: selectedResult });
+		dispatch('removeResult', { index });
+	};
+
+	const openResults = () => {
+		dispatch('openResults', { index });
 	};
 
 	$: selectedImage = selectedResult.images[2]?.url;
@@ -72,18 +78,40 @@
 			</Button>
 		</div>
 	</div>
-	<div class="results">
-		{#each results as result, i}
-			<div class="artist">
-				<img src={result.images[2]?.url} alt={result.name} />
+	{#if dropdownOpen}
+		<div class="dropdown">
+			{#each results as result, i}
+				<div class="result">
+					<div class="artist">
+						<img src={result.images[2]?.url} alt={result.name} />
 
-				<div class="text">
-					<h2>{result.name}</h2>
-					<p>{result.genres.slice(0, 2).join(', ')}</p>
+						<div class="text">
+							<h2>{result.name}</h2>
+							<p>{result.genres.slice(0, 2).join(', ')}</p>
+						</div>
+					</div>
+					<div class="buttons">
+						<Button handleClick={removeResult} square={true}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-6 h-6"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+						</Button>
+					</div>
 				</div>
-			</div>
-		{/each}
-	</div>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -108,8 +136,12 @@
 		border: 0;
 		background: 0;
 		gap: 0.5rem;
-
 		align-items: center;
+	}
+
+	.dropdown .result {
+		display: flex;
+		justify-content: space-between;
 	}
 
 	svg {

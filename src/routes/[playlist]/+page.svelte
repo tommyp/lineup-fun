@@ -15,6 +15,7 @@
 	let playlistName = $playlistNameStore;
 	let results = [];
 	let url;
+	let openResultIndex;
 
 	$: browser && window.localStorage.setItem('results', JSON.stringify(results));
 
@@ -82,6 +83,11 @@
 		// searchResults.update((results) => deleteresults.filter((r) => r !== result));
 	};
 
+	const openResults = (ev) => {
+		const { index } = ev.detail;
+		openResultIndex = index;
+	};
+
 	const startAgain = () => {
 		searchResults.set([]);
 		notFoundSearchResults.set([]);
@@ -97,11 +103,16 @@
 	<div class="results">
 		<h1>{playlistName}</h1>
 
-		{#each Object.values($searchResults) as results}
+		{#each Object.values($searchResults) as results, i}
 			{#if results[0].type == 'artist'}
-				<ArtistResult {results} on:removeResult={removeResult} />
+				<ArtistResult
+					{results}
+					on:removeResult={removeResult}
+					on:openResults={openResults}
+					dropdownOpen={i === openResultIndex}
+				/>
 			{:else if results[0].type == 'album'}
-				<AlbumResult {results} on:removeResult={removeResult} />
+				<!-- <AlbumResult {results} on:removeResult={removeResult} /> -->
 			{/if}
 		{/each}
 
