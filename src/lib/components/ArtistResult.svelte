@@ -23,6 +23,11 @@
 		dispatch('closeResults', { index });
 	};
 
+	const selectResult = (i) => {
+		selectedResultIndex = i;
+		closeResults();
+	};
+
 	$: selectedImage = selectedResult.images[2]?.url;
 </script>
 
@@ -108,7 +113,7 @@
 								</svg>
 							</Button>
 						{:else}
-							<Button handleClick={removeResult} square={true}>
+							<Button handleClick={() => selectResult(i)} square={true}>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -155,6 +160,12 @@
 		background: 0;
 		gap: 0.5rem;
 		align-items: center;
+	}
+
+	.dropdown {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 	}
 
 	.dropdown .result {

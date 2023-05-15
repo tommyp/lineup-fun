@@ -85,7 +85,6 @@
 
 	const openResults = (ev) => {
 		const { index } = ev.detail;
-
 		openResultIndex = index;
 	};
 

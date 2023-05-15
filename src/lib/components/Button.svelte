@@ -1,5 +1,5 @@
 <script>
-	export let type = '';
+	export let type = 'button';
 	export let big = false;
 	export let square = false;
 	export let disabled = false;
