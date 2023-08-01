@@ -67,7 +67,12 @@
 
 					spotify.searchAlbums(album).then((resp) => {
 						if (resp.albums.total > 0) {
-							searchResults.update((rs) => [...rs, resp.albums.items[0]]);
+							searchResults.update((rs) => {
+								return {
+									...rs,
+									[query]: resp.albums.items
+								};
+							});
 						} else {
 							notFoundSearchResults.update((rs) => [...rs, query]);
 						}
@@ -75,7 +80,12 @@
 				} else {
 					spotify.searchArtists(query).then((resp) => {
 						if (resp.artists.total > 0) {
-							searchResults.update((rs) => [...rs, resp.artists.items[0]]);
+							searchResults.update((rs) => {
+								return {
+									...rs,
+									[query]: resp.artists.items
+								};
+							});
 						} else {
 							notFoundSearchResults.update((rs) => [...rs, query]);
 						}
@@ -159,10 +169,5 @@
 
 			justify-content: space-between;
 		}
-	}
-
-	label[for='artists'] {
-		flex-grow: 1;
-		display: flex;
 	}
 </style>

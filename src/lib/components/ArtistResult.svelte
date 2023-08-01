@@ -1,56 +1,153 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
+	import Button from './Button.svelte';
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	const dispatch = createEventDispatcher();
 
-	import Button from './Button.svelte';
+	export let results;
+	export let index;
+	export let dropdownOpen = false;
 
-	export let result;
+	let selectedResultIndex = 0;
+	$: selectedResult = results[selectedResultIndex];
 
 	const removeResult = () => {
-		dispatch('removeResult', { result });
+		dispatch('removeResult', { index });
 	};
 
-	$: image = result.images[2]?.url;
+	const openResults = () => {
+		dispatch('openResults', { index });
+	};
+
+	const closeResults = () => {
+		dispatch('closeResults', { index });
+	};
+
+	const selectResult = (i) => {
+		selectedResultIndex = i;
+		closeResults();
+	};
+
+	$: selectedImage = selectedResult.images[2]?.url;
 </script>
 
 <div class="result">
-	<div class="artist">
-		{#if image}
-			<img src={image} alt={result.name} />
-		{/if}
-		<div class="text">
-			<h2>{result.name}</h2>
-			<p>{result.genres.slice(0, 2).join(', ')}</p>
+	<div class="selected-result">
+		<div class="artist">
+			{#if selectedImage}
+				<img src={selectedImage} alt={selectedResult.name} />
+			{/if}
+			<div class="text">
+				<h2>{selectedResult.name}</h2>
+				<p>{selectedResult.genres.slice(0, 2).join(', ')}</p>
+			</div>
+		</div>
+
+		<div class="buttons">
+			<Button handleClick={() => (dropdownOpen ? closeResults() : openResults())} square>
+				{#if dropdownOpen}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+					</svg>
+				{:else}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+					</svg>
+				{/if}
+			</Button>
+
+			<Button handleClick={removeResult} square={true}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5 w-5"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</Button>
 		</div>
 	</div>
+	{#if dropdownOpen}
+		<div class="dropdown" transition:fly={{ y: -100, duration: 100, easing: quintOut }}>
+			{#each results as result, i}
+				<div class="result">
+					<div class="artist">
+						<img src={result.images[2]?.url} alt={result.name} />
 
-	<div class="button">
-		<Button handleClick={removeResult} square={true}>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5"
-				viewBox="0 0 20 20"
-				fill="currentColor"
-			>
-				<path
-					fill-rule="evenodd"
-					d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-					clip-rule="evenodd"
-				/>
-			</svg>
-		</Button>
-	</div>
+						<div class="text">
+							<h2>{result.name}</h2>
+							<p>{result.genres.slice(0, 2).join(', ')}</p>
+						</div>
+					</div>
+					<div class="buttons">
+						{#if selectedResultIndex === i}
+							<Button disabled square={true}>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+								</svg>
+							</Button>
+						{:else}
+							<Button handleClick={() => selectResult(i)} square={true}>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</Button>
+						{/if}
+					</div>
+				</div>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>
-	.result {
+	.selected-result {
 		display: flex;
 		gap: 1rem;
 		align-items: center;
 		justify-content: space-between;
 		min-height: 100px;
 		position: relative;
+		width: 100%;
 	}
 
 	.artist {
@@ -58,24 +155,35 @@
 		gap: 1rem;
 	}
 
-	.button {
-		display: none;
+	.buttons {
+		display: flex;
 		appearance: none;
 		border: 0;
 		background: 0;
-		position: absolute;
-		right: 20px;
-
+		gap: 0.5rem;
 		align-items: center;
+	}
+
+	.dropdown {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		background: var(--neon-pink);
+		--highlight: var(--neon-green);
+		--color: var(--neon-pink);
+		--active: var(--neon-orange);
+		--background: var(--neon-green);
+		padding: 0.5rem 3rem 0;
+	}
+
+	.dropdown .result {
+		display: flex;
+		justify-content: space-between;
 	}
 
 	svg {
 		height: 20px;
 		width: 20px;
-	}
-
-	.result:hover .button {
-		display: flex;
 	}
 
 	h2 {
