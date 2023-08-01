@@ -16,7 +16,7 @@
 		align-items: center;
 		background: var(--highlight);
 		border: none;
-		color: #fff;
+		color: var(--color, #fff);
 		cursor: pointer;
 		display: flex;
 		font-family: 'Commune_Nuit_Debout';

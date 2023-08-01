@@ -1,6 +1,8 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	const dispatch = createEventDispatcher();
 
@@ -87,7 +89,7 @@
 		</div>
 	</div>
 	{#if dropdownOpen}
-		<div class="dropdown">
+		<div class="dropdown" transition:fly={{ y: -100, duration: 100, easing: quintOut }}>
 			{#each results as result, i}
 				<div class="result">
 					<div class="artist">
@@ -166,6 +168,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		background: var(--neon-pink);
+		--highlight: var(--neon-green);
+		--color: var(--neon-pink);
+		--active: var(--neon-orange);
+		--background: var(--neon-green);
+		padding: 0.5rem 3rem 0;
 	}
 
 	.dropdown .result {

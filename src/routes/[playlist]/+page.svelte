@@ -49,8 +49,6 @@
 			});
 		});
 
-		console.log(trackUris);
-
 		const user = spotifyUser();
 
 		let playlist;
