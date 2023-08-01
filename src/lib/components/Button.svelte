@@ -1,19 +1,22 @@
 <script>
-	export let type = '';
+	export let type = 'button';
 	export let big = false;
 	export let square = false;
 	export let disabled = false;
 	export let handleClick = () => {};
+	export let altText = '';
 </script>
 
-<button on:click={handleClick} {disabled} class:big class:square {type}> <slot /> </button>
+<button on:click={handleClick} aria-label={altText} {disabled} class:big class:square {type}>
+	<slot />
+</button>
 
 <style>
 	button {
 		align-items: center;
 		background: var(--highlight);
 		border: none;
-		color: #fff;
+		color: var(--color, #fff);
 		cursor: pointer;
 		display: flex;
 		font-family: 'Commune_Nuit_Debout';
@@ -26,6 +29,7 @@
 
 	button:disabled {
 		background-color: #ddd;
+		cursor: no-drop;
 	}
 
 	.big {
