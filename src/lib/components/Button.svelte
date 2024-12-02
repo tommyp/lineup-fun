@@ -1,5 +1,5 @@
 <script>
-	export let type = '';
+	export let type = 'button';
 	export let big = false;
 	export let square = false;
 	export let disabled = false;
@@ -19,7 +19,9 @@
 		font-family: 'Commune_Nuit_Debout';
 		justify-content: center;
 		outline: none;
-		transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+		transition:
+			background 0.2s ease-in-out,
+			color 0.2s ease-in-out;
 		text-decoration: none;
 		width: 100%;
 	}

@@ -1,5 +1,5 @@
 <script>
-	import QueryString from 'qs';
+	import querystring from 'query-string';
 
 	export let uuid;
 
@@ -12,7 +12,7 @@
 
 	const redirect_uri =
 		'https://accounts.spotify.com/authorize?' +
-		QueryString.stringify({
+		querystring.stringify({
 			response_type: 'code',
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
 			scope: scopes,

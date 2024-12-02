@@ -1,11 +1,16 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher();
-
 	import Button from './Button.svelte';
 
-	export let result;
+	interface Result {
+		name: string;
+		genres: string[];
+		images: { url: string }[];
+	}
+
+	export let result: Result;
+
+	const dispatch = createEventDispatcher();
 
 	const removeResult = () => {
 		dispatch('removeResult', { result });
