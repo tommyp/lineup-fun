@@ -10,8 +10,8 @@
 		'user-read-email'
 	].join(' ');
 
-	const redirect_uri = '';
-	'https://accounts.spotify.com/authorize?' +
+	const redirect_uri =
+		'https://accounts.spotify.com/authorize?' +
 		queryString.stringify({
 			response_type: 'code',
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
