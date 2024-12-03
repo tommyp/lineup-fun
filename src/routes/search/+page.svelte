@@ -160,9 +160,4 @@
 			justify-content: space-between;
 		}
 	}
-
-	label[for='artists'] {
-		flex-grow: 1;
-		display: flex;
-	}
 </style>

@@ -2,13 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
 
-	interface Result {
-		name: string;
-		genres: string[];
-		images: { url: string }[];
-	}
-
-	export let result: Result;
+	export let result;
 
 	const dispatch = createEventDispatcher();
 

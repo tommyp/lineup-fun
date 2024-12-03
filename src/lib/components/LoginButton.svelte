@@ -1,5 +1,5 @@
 <script>
-	import querystring from 'query-string';
+	import queryString from 'query-string';
 
 	export let uuid;
 
@@ -10,9 +10,9 @@
 		'user-read-email'
 	].join(' ');
 
-	const redirect_uri =
-		'https://accounts.spotify.com/authorize?' +
-		querystring.stringify({
+	const redirect_uri = '';
+	'https://accounts.spotify.com/authorize?' +
+		queryString.stringify({
 			response_type: 'code',
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
 			scope: scopes,
@@ -34,7 +34,9 @@
 		text-decoration: none;
 		width: 100%;
 		text-align: center;
-		transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+		transition:
+			background 0.2s ease-in-out,
+			color 0.2s ease-in-out;
 	}
 
 	.btn:hover {

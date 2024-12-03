@@ -1,4 +1,4 @@
-import QueryString from 'qs';
+import queryString from 'query-string';
 import { hex } from 'securerandom';
 
 export async function GET() {
@@ -15,7 +15,7 @@ export async function GET() {
 		headers: {
 			location:
 				'https://accounts.spotify.com/authorize?' +
-				QueryString.stringify({
+				queryString.stringify({
 					response_type: 'code',
 					client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
 					scope: scopes,

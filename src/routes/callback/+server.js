@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import querystring from 'query-string';
+import queryString from 'query-string';
 
 export async function GET({ url }) {
 	const code = url.searchParams.get('code');
@@ -15,7 +15,7 @@ export async function GET({ url }) {
 					import.meta.env.VITE_SPOTIFY_CLIENT_ID + ':' + import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
 				).toString('base64')
 		},
-		body: querystring.stringify({
+		body: queryString.stringify({
 			code: code,
 			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
 			grant_type: 'authorization_code'
