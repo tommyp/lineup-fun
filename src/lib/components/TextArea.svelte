@@ -5,7 +5,7 @@
 	export let value;
 </script>
 
-<textarea {name} {required} {placeholder} bind:value />
+<textarea {name} {required} {placeholder} bind:value></textarea>
 
 <style>
 	textarea {

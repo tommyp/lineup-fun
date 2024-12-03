@@ -5,7 +5,7 @@ const fictionalActs = [
 	'Dethklok - The Deathalbum',
 	'Electric Dream Machine',
 	'PaRappa The Rappa',
-	'Spın̈al Tap - This Is Spın̈al Tap',
+	'Spinal Tap - This Is Spinal Tap',
 	'The Style Boyz'
 ];
 
