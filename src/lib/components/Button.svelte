@@ -1,12 +1,26 @@
-<script>
-	export let type = 'button';
-	export let big = false;
-	export let square = false;
-	export let disabled = false;
-	export let handleClick = () => {};
+<script lang="ts">
+	interface ButtonProps {
+		type: 'button' | 'submit' | 'reset';
+		big: boolean;
+		square: boolean;
+		disabled: boolean;
+		handleClick: () => void;
+		children: () => any;
+	}
+
+	let {
+		type = 'button',
+		big = false,
+		square = false,
+		disabled = false,
+		handleClick = () => {},
+		children = () => {}
+	}: ButtonProps = $props();
 </script>
 
-<button on:click={handleClick} {disabled} class:big class:square {type}> <slot /> </button>
+<button onclick={handleClick} {disabled} class:big class:square {type}>
+	{@render children?.()}
+</button>
 
 <style>
 	button {
